@@ -1,0 +1,82 @@
+﻿
+@using PagedList.Mvc
+@model MultiplePagedListPager.Models.ProductPageModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <div class="row table-responsive">
+        <h3>Products Above ReorderPoint</h3>
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product Number</th>
+                    <th>ListPrice</th>
+                    <th>Location ID</th>
+                    <th>Quantity</th>
+                    <th>Reorder Point</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var productAboveReorder in Model.ProductsAboveReorder)
+                {
+                    <tr>
+                        <td>@productAboveReorder.ProductID</td>
+                        <td>@productAboveReorder.ProductName</td>
+                        <td>@productAboveReorder.ProductNumber</td>
+                        <td>@productAboveReorder.ListPrice</td>
+                        <td>@productAboveReorder.LocationID</td>
+                        <td>@productAboveReorder.Quantity</td>
+                        <td>@productAboveReorder.ReorderPoint</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.PagedListPager(Model.ProductsAboveReorder, page => Url.Action("Index",
+                                    "Home",
+                                      new RouteValueDictionary() {
+                                        { "AboveReorderPage", page },
+                                        { "BelowReorderPage", Model.PageModel.BelowReorderPage }
+                                      }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    </div>
+    <div class="row table-responsive">
+        <h3>Products Below ReorderPoint</h3>
+        <table class="table table-bordered table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product Number</th>
+                    <th>ListPrice</th>
+                    <th>Location ID</th>
+                    <th>Quantity</th>
+                    <th>Reorder Point</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var productBelowReorder in Model.ProductsBelowReorder)
+                {
+                    <tr>
+                        <td>@productBelowReorder.ProductID</td>
+                        <td>@productBelowReorder.ProductName</td>
+                        <td>@productBelowReorder.ProductNumber</td>
+                        <td>@productBelowReorder.ListPrice</td>
+                        <td>@productBelowReorder.LocationID</td>
+                        <td>@productBelowReorder.Quantity</td>
+                        <td>@productBelowReorder.ReorderPoint</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.PagedListPager(Model.ProductsBelowReorder, page => Url.Action("Index",
+                                    "Home",
+                                      new RouteValueDictionary() {
+                                        { "BelowReorderPage", page },
+                                        { "AboveReorderPage", Model.PageModel.AboveReorderPage }
+                                      }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    </div>
+</div>
+
